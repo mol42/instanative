@@ -35,7 +35,7 @@
 	"jest": {
 		"preset": "react-native",
 		"transformIgnorePatterns": [
-			"node_modules/(?!(react-native|react-native-animatable|react-native-modal|react-native-fast-image|react-native-button|react-native-camera|react-native-progress|react-navigation|react-native-elements|react-native-vector-icons)/)"
+			"node_modules/(?!(react-native|react-native-animatable|react-native-modal|react-native-fast-image|react-native-button|react-native-camera|react-native-progress|react-navigation|react-native-elements|react-native-vector-icons|react-native-config|native-toaster)/)"
 		]
 	}
 }

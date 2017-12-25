@@ -25,14 +25,14 @@ import uploadSaga from "./uploadSaga";
 
 const tryLoginSaga = function*(action) {
     let {email, password} = action.payload;
-    
+
     try {
         const loginResponse = yield call(instaApi.doLogin, email, password);
         if (loginResponse && loginResponse.status == "ok") {
             let {sessionToken, user} = loginResponse.data;
             // api token bilgisini yardımcı olarak kullandığımız
             // sınıflar ile paylaşıyoruz.
-            instaApi.setToken(sessionToken); // .saveAuthInfo(user, sessionToken);
+            instaApi.setToken(sessionToken).saveAuthInfo(user, sessionToken);
             uploadApi.setToken(sessionToken);
             yield put(loginSuccess(loginResponse.data));
         } else {
