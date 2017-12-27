@@ -1,12 +1,12 @@
 #!/bin/sh
 
+# bu script ile bir ios ipa dosyası oluşturuluyor
 # örnek build komutu :
 # sh make_release_ios.sh staging 12 1.0.0-rc.1
 
-APP_DEPLOYMENT_ENVIRONMENT=$1 # which environment build is targeting ( this selects the scheme )
-BUILD_NUMBER=$2;  # build number of the ipa
+APP_DEPLOYMENT_ENVIRONMENT=$1 # hangi ortam için build çıkıyoruz ( bu ayar scheme'yi seçer )
+BUILD_NUMBER=$2;  # ipa'nın build numberi
 BUNDLE_SHORT_VERSION=$3; # 
-RELEASE_INFO_FILE="release_info.txt"
 EXPORT_PLIST_FILE="";
 
 if [ -z "$APP_DEPLOYMENT_ENVIRONMENT" ] || [ "$APP_DEPLOYMENT_ENVIRONMENT" == "" ] ; then
@@ -71,7 +71,7 @@ npm install || exit
 echo "====================================================="
 echo "Processing manual updates"
 echo "====================================================="
-# alt yapıda lokijs var ve React Native ile çalışması için
+# alt yapıda lokijs var ise ve React Native ile çalışması için
 # require('fs') yerine require('react-native-fs') olması gerekiyor.
 # sed -i -e "s/require('fs')/require('react-native-fs')/g" node_modules/lokijs/src/lokijs.js
 
@@ -97,53 +97,32 @@ echo "====================================================="
 echo "Setting bundle short version..."
 echo "====================================================="
 
-/usr/libexec/Plistbuddy -c "Set CFBundleShortVersionString $BUNDLE_SHORT_VERSION" "./AvaMobileApp/Info.plist" || exit
-
+/usr/libexec/Plistbuddy -c "Set CFBundleShortVersionString $BUNDLE_SHORT_VERSION" "./instanative/Info.plist" || exit
 
 echo "====================================================="
 echo "Setting build number..."
 echo "====================================================="
-/usr/libexec/Plistbuddy -c "Set CFBundleVersion $BUILD_NUMBER" "./AvaMobileApp/Info.plist" || exit
+/usr/libexec/Plistbuddy -c "Set CFBundleVersion $BUILD_NUMBER" "./instanative/Info.plist" || exit
 
 echo "====================================================="
 echo "Archiving to ../dist"
 echo "====================================================="
 
-xcodebuild clean archive -scheme $SCHEME -archivePath ../dist/AvaMobileApp.xcarchive  || exit
+xcodebuild clean archive -scheme $SCHEME -archivePath ../dist/InstaNative.xcarchive  || exit
 
 # Let's print where we are
 echo "====================================================="
 echo "Exportion ipa to ../dist folder"
 echo "====================================================="
 
-xcodebuild -exportArchive -archivePath ../dist/AvaMobileApp.xcarchive -exportPath ../dist/ -exportOptionsPlist $EXPORT_PLIST_FILE || exit
-
+xcodebuild -exportArchive -archivePath ../dist/InstaNative.xcarchive -exportPath ../dist/ -exportOptionsPlist $EXPORT_PLIST_FILE || exit
 
 # Let's print where we are
 echo "====================================================="
 echo "Deleting archive"
 echo "====================================================="
 
-rm -rf ../dist/AvaMobileApp.xcarchive || exit
-
-# Aşağıdaki satırlar yapılan build'i takip amaçlı bir releases.txt dosyasına
-# kaydetmek için kullanılıyor build akışında eğer release'leri bir txt dosyasında
-# takip etmek isterseniz aşağıdaki kodlarda yoruma alınmış git komutlarını 
-# ait yorumları kaldırabilirsiniz.
-if [ "$APP_DEPLOYMENT_ENVIRONMENT" == "staging" ] || [ "$APP_DEPLOYMENT_ENVIRONMENT" == "production" ] ; then
-    cd ..
-    echo "====================================================="
-    echo "Push release information"
-    echo "====================================================="
-    git stash
-    DATE=`date -u "+%Y-%m-%d %H:%M:%S %Z"`
-    WHOAMI=`whoami`
-    REVISION=`git log --pretty=oneline | head -n 1 | awk '{print $1}'`
-    echo "${DATE}\t${APP_DEPLOYMENT_ENVIRONMENT}\t${BUILD_NUMBER}\t${BUNDLE_SHORT_VERSION}\t${WHOAMI}\t${REVISION}" >> ./${RELEASE_INFO_FILE} || exit
-    # 
-    # git commit -a -m "Release info file updated." || exit
-    # git push
-fi
+rm -rf ../dist/InstaNative.xcarchive || exit
 
 echo "====================================================="
 echo "RELEASE COMPLETED!"
