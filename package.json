@@ -11,6 +11,7 @@
 		"native-toaster": "git+https://github.com/mol42/native-toaster.git",
 		"react": "16.0.0",
 		"react-native": "0.50.3",
+		"react-native-animatable": "^1.2.4",
 		"react-native-background-upload": "^4.1.0",
 		"react-native-button": "^2.1.0",
 		"react-native-camera": "^0.12.0",

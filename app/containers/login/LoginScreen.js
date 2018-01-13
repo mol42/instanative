@@ -29,7 +29,7 @@ export class LoginScreen extends BaseScreen {
   isVisible = true;
 
   componentWillMount() {
-    this.props.tryAutoLogin();
+    // this.props.tryAutoLogin();
   }
 
   /**

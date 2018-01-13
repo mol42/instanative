@@ -15,7 +15,8 @@ import Config from "../../config/Configuration";
 class HomeScreen extends BaseScreen {
 
   static navigationOptions = { 
-    header: null
+    header: null,
+    tabBarVisible : true
   }
 
   constructor(props) {
