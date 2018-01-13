@@ -23,7 +23,8 @@ const initialState = {
   loginInProgress : false,
   loginCompleted : false,
   loginHasError : true,
-  lastErrorTime : 0
+  lastErrorTime : 0,
+  lastLoginTime : 0
 };
 
 export default function (state = initialState, action) {
@@ -46,7 +47,8 @@ export default function (state = initialState, action) {
       token : sessionToken,
       loginInProgress : false,
       loginHasError : false,
-      loginCompleted : true
+      loginCompleted : true,
+      lastLoginTime : new Date().getTime()
     }
   }
 
@@ -73,11 +75,13 @@ export default function (state = initialState, action) {
   if (action.type === LOGOUT_SUCCESS) {
     return {
       ...initialState,
-      loggedIn : false,
-      user : {},
+      lastLoginTime : state.lastLoginTime,   
+      user : {
+        ...initialState.user
+      },
       loginForm : {
         ...initialState.loginForm
-      }
+      },
     }
   }
   if (action.type === PROFILE_NAME_CHANGED) {

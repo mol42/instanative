@@ -82,6 +82,11 @@ class ProfileScreen extends BaseScreen {
   state = {
     isModalVisible : false
   }
+  lastLoginTime = 0;
+
+  constructor(props) {
+    super(props);
+  }
 
   componentWillMount(newProps) {
     this.props.fetchProfile();
@@ -89,10 +94,11 @@ class ProfileScreen extends BaseScreen {
   }
 
   componentWillReceiveProps(nextProps) {
-    let {loggedIn, user} = nextProps.auth;
+    let {loggedIn, user, lastLoginTime} = nextProps.auth;
 
-    if (!loggedIn && !user.id) {
-      this.resetAndNavigate('LoginScreen');
+    if (!loggedIn && !user.id && this.lastLoginTime != lastLoginTime) {
+      this.resetAndNavigate('LoginScreen', {reset: true});
+      this.lastLoginTime = lastLoginTime;
     }
   }
 
