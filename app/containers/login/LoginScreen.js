@@ -26,7 +26,11 @@ export class LoginScreen extends BaseScreen {
     header: null, 
     tabBarVisible: false 
   }
-  isVisible = true;
+  isVisible = false;
+
+  constructor(props) {
+    super(props);
+  }
 
   componentWillMount() {
     // this.props.tryAutoLogin();
@@ -41,10 +45,11 @@ export class LoginScreen extends BaseScreen {
    */
   componentWillReceiveProps(newProps) {
     let {loginInProgress, loginCompleted, loginHasError, user} = newProps.auth;
+    const {state} = this.props.navigation;
 
-    if (!loginInProgress && loginCompleted && !loginHasError && user.id > 0  && this.isVisible) {
+    if (!loginInProgress && loginCompleted && !loginHasError && user.id > 0 && !this.isVisible) {
       this.navigateToScreen('HomeScreen');
-      this.isVisible = false;
+      this.isVisible = true;
     }
   }
 
@@ -75,7 +80,7 @@ export class LoginScreen extends BaseScreen {
                   </Button>
                 </View>
               </View>
-              <ErrorMessage enableError={loginCompleted} showError={loginCompleted && loginHasError} />
+              {/*<ErrorMessage enableError={loginCompleted} showError={loginCompleted && loginHasError} />*/}
           </ImageBackground>
   }
 

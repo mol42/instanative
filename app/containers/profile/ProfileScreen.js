@@ -9,13 +9,13 @@ import InstaImage from "../../components/InstaImage";
 import Configuration from "../../config/Configuration";
 // redux
 import { connect } from "react-redux";
-import { 
-  doLogout, 
+import {  
   nameChanged, 
   currentJobChanged, 
   webSiteLinkChanged, 
   saveProfile,
-  fetchProfile
+  fetchProfile,
+  doLogout
 } from "../../redux/auth/Actions";
 import { 
   fetchMyRecentPhotos 
@@ -59,6 +59,20 @@ const styles = {
     marginRight : 5, 
     paddingTop : 5, 
     paddingBottom: 5    
+  },
+  // workshop redux Logout
+  logoutButton : {
+    marginTop: 10,
+    borderWidth: 0.5, 
+    borderColor : "#ccc", 
+    backgroundColor : "red", 
+    color : "white", 
+    justifyContent : "center", 
+    alignItems : "center", 
+    marginLeft: 5, 
+    marginRight : 5, 
+    paddingTop : 5, 
+    paddingBottom: 5    
   }
 }
 
@@ -68,10 +82,24 @@ class ProfileScreen extends BaseScreen {
   state = {
     isModalVisible : false
   }
+  lastLoginTime = 0;
+
+  constructor(props) {
+    super(props);
+  }
 
   componentWillMount(newProps) {
     this.props.fetchProfile();
     this.props.fetchMyRecentPhotos();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let {loggedIn, user, lastLoginTime} = nextProps.auth;
+
+    if (!loggedIn && !user.id && this.lastLoginTime != lastLoginTime) {
+      this.resetAndNavigate('LoginScreen', {reset: true});
+      this.lastLoginTime = lastLoginTime;
+    }
   }
 
   render() {
@@ -93,6 +121,9 @@ class ProfileScreen extends BaseScreen {
               </View>
               <Button style={styles.editProfileButton} onPress={() => this.setState({isModalVisible : true})} >
                 Edit Profile
+              </Button>
+              <Button style={styles.logoutButton} onPress={this._doLogout} >
+                Logout
               </Button>
             </View>
           </View>
@@ -177,6 +208,10 @@ class ProfileScreen extends BaseScreen {
     this.props.saveProfile(user.profile);
     this.setState({isModalVisible : false})
   }
+
+  _doLogout = () => {
+    this.props.doLogout();
+  }
 }
 
 function bindAction(dispatch) {
@@ -187,7 +222,8 @@ function bindAction(dispatch) {
     currentJobChanged : (jobText) => dispatch(currentJobChanged(jobText)),
     webSiteLinkChanged : (webSiteLinkText) => dispatch(webSiteLinkChanged(webSiteLinkText)),
     saveProfile : (profile) => dispatch(saveProfile(profile)),
-    fetchProfile : () => dispatch(fetchProfile())
+    fetchProfile : () => dispatch(fetchProfile()),
+    doLogout : () => dispatch(doLogout())
   };
 }
 

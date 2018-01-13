@@ -3,6 +3,7 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const APP_INITIALIZED = "APP_INITIALIZED";
 export const LOGIN_FORM_UPDATED = "LOGIN_FORM_UPDATED";
 export const FETCH_PROFILE_REQUEST = "FETCH_PROFILE_REQUEST";
@@ -29,6 +30,10 @@ export const tryAutoLogin = (email, password) => ({
 export const doLogout = () => ({
     type : LOGOUT_REQUEST
 });
+
+export const logoutSuccess = () => ({
+    type : LOGOUT_SUCCESS
+})
 
 export const loginSuccess = (loginData) => ({
     type : LOGIN_SUCCESS,

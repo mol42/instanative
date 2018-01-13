@@ -2,6 +2,7 @@ import {
   LOGIN_REQUEST, 
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGOUT_SUCCESS,
   LOGIN_FORM_UPDATED,
   LOGOUT_REQUEST,
   PROFILE_NAME_CHANGED,
@@ -22,7 +23,8 @@ const initialState = {
   loginInProgress : false,
   loginCompleted : false,
   loginHasError : true,
-  lastErrorTime : 0
+  lastErrorTime : 0,
+  lastLoginTime : 0
 };
 
 export default function (state = initialState, action) {
@@ -45,7 +47,8 @@ export default function (state = initialState, action) {
       token : sessionToken,
       loginInProgress : false,
       loginHasError : false,
-      loginCompleted : true
+      loginCompleted : true,
+      lastLoginTime : new Date().getTime()
     }
   }
 
@@ -69,13 +72,16 @@ export default function (state = initialState, action) {
       }
     }
   }
-  if (action.type === LOGOUT_REQUEST) {
+  if (action.type === LOGOUT_SUCCESS) {
     return {
       ...initialState,
-      user : {},
+      lastLoginTime : state.lastLoginTime,   
+      user : {
+        ...initialState.user
+      },
       loginForm : {
-        ...initialState
-      }
+        ...initialState.loginForm
+      },
     }
   }
   if (action.type === PROFILE_NAME_CHANGED) {
