@@ -72,18 +72,7 @@ export default function (state = initialState, action) {
       }
     }
   }
-  if (action.type === LOGOUT_SUCCESS) {
-    return {
-      ...initialState,
-      lastLoginTime : state.lastLoginTime,   
-      user : {
-        ...initialState.user
-      },
-      loginForm : {
-        ...initialState.loginForm
-      },
-    }
-  }
+
   if (action.type === PROFILE_NAME_CHANGED) {
     return {
       ...state,

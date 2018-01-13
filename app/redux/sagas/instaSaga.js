@@ -56,11 +56,7 @@ const tryAutoLoginSaga = function*() {
 }
 
 const doLogoutSaga = function*() {
-    const authInfo = yield call(instaApi.readAuthInfo);
-    if (authInfo) {
-        instaApi.clearAuthInfo();
-        yield put(logoutSuccess());  
-    }
+    
 }
 
 const fetchRecentMediaSaga = function*() {
@@ -93,7 +89,6 @@ const apiSagas = function*() {
     yield takeLatest(SAVE_PROFILE_REQUEST, saveProfileSaga);
     yield takeLatest(AUTO_LOGIN_REQUEST, tryAutoLoginSaga);
     yield takeLatest(FETCH_PROFILE_REQUEST, fetchProfileSaga);
-    yield takeLatest(LOGOUT_REQUEST, doLogoutSaga);
 }
 
 // saga'lar birleştirilebiliyorlar ve burada upload ve

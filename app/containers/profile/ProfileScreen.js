@@ -14,8 +14,7 @@ import {
   currentJobChanged, 
   webSiteLinkChanged, 
   saveProfile,
-  fetchProfile,
-  doLogout
+  fetchProfile
 } from "../../redux/auth/Actions";
 import { 
   fetchMyRecentPhotos 
@@ -60,6 +59,7 @@ const styles = {
     paddingTop : 5, 
     paddingBottom: 5    
   },
+  /*
   // workshop redux Logout
   logoutButton : {
     marginTop: 10,
@@ -74,6 +74,7 @@ const styles = {
     paddingTop : 5, 
     paddingBottom: 5    
   }
+  */
 }
 
 class ProfileScreen extends BaseScreen {
@@ -95,11 +96,6 @@ class ProfileScreen extends BaseScreen {
 
   componentWillReceiveProps(nextProps) {
     let {loggedIn, user, lastLoginTime} = nextProps.auth;
-
-    if (!loggedIn && !user.id && this.lastLoginTime != lastLoginTime) {
-      this.resetAndNavigate('LoginScreen', {reset: true});
-      this.lastLoginTime = lastLoginTime;
-    }
   }
 
   render() {
@@ -122,9 +118,11 @@ class ProfileScreen extends BaseScreen {
               <Button style={styles.editProfileButton} onPress={() => this.setState({isModalVisible : true})} >
                 Edit Profile
               </Button>
+              {/*
               <Button style={styles.logoutButton} onPress={this._doLogout} >
                 Logout
               </Button>
+              */}
             </View>
           </View>
           <View style={{padding: 10}}>
@@ -210,20 +208,18 @@ class ProfileScreen extends BaseScreen {
   }
 
   _doLogout = () => {
-    this.props.doLogout();
+    
   }
 }
 
 function bindAction(dispatch) {
   return {
-    doLogout : () => dispatch(doLogout()),
     fetchMyRecentPhotos : () => dispatch(fetchMyRecentPhotos()),
     nameChanged : (nameText) => dispatch(nameChanged(nameText)),
     currentJobChanged : (jobText) => dispatch(currentJobChanged(jobText)),
     webSiteLinkChanged : (webSiteLinkText) => dispatch(webSiteLinkChanged(webSiteLinkText)),
     saveProfile : (profile) => dispatch(saveProfile(profile)),
-    fetchProfile : () => dispatch(fetchProfile()),
-    doLogout : () => dispatch(doLogout())
+    fetchProfile : () => dispatch(fetchProfile())
   };
 }
 
