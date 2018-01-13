@@ -1,3 +1,7 @@
+jest.mock('native-toaster', () => () => {
+  show : jest.fn()
+});
+
 import React from 'react';
 import renderer from 'react-test-renderer';
 
@@ -16,9 +20,9 @@ it('renders a LoginScreen using Snapshots', () => {
     )
   };
   
-  let component = _getComponent({ loginForm : {} });
-  expect(component).toMatchSnapshot();
+  //let component = _getComponent({ loginForm : {} });
+  //expect(component).toMatchSnapshot();
 
-  component = _getComponent({ loginForm : {email : "user1@mol42.com", password : "1234"} });
+  let component = _getComponent({ loginForm : {email : "user1@mol42.com", password : "1234"} });
   expect(component).toMatchSnapshot();
 });
