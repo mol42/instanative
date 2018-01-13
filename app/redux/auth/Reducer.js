@@ -2,6 +2,7 @@ import {
   LOGIN_REQUEST, 
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGOUT_SUCCESS,
   LOGIN_FORM_UPDATED,
   LOGOUT_REQUEST,
   PROFILE_NAME_CHANGED,
@@ -69,12 +70,13 @@ export default function (state = initialState, action) {
       }
     }
   }
-  if (action.type === LOGOUT_REQUEST) {
+  if (action.type === LOGOUT_SUCCESS) {
     return {
       ...initialState,
+      loggedIn : false,
       user : {},
       loginForm : {
-        ...initialState
+        ...initialState.loginForm
       }
     }
   }

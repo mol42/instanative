@@ -26,7 +26,6 @@ export class LoginScreen extends BaseScreen {
     header: null, 
     tabBarVisible: false 
   }
-  isVisible = true;
 
   componentWillMount() {
     // this.props.tryAutoLogin();
@@ -41,10 +40,10 @@ export class LoginScreen extends BaseScreen {
    */
   componentWillReceiveProps(newProps) {
     let {loginInProgress, loginCompleted, loginHasError, user} = newProps.auth;
+    const {state} = this.props.navigation;
 
-    if (!loginInProgress && loginCompleted && !loginHasError && user.id > 0  && this.isVisible) {
-      this.navigateToScreen('HomeScreen');
-      this.isVisible = false;
+    if (!loginInProgress && loginCompleted && !loginHasError && user.id > 0 /*&& state.routeName == "LoginScreen"*/) {
+      this.resetAndNavigate('HomeScreen');
     }
   }
 

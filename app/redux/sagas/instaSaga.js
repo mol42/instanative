@@ -7,8 +7,10 @@ import {
     AUTO_LOGIN_REQUEST,
     SAVE_PROFILE_REQUEST,
     FETCH_PROFILE_REQUEST,
+    LOGOUT_REQUEST,
     loginSuccess,
     loginFailure,
+    logoutSuccess,
     saveProfileSuccess,
     fetchProfileSuccess
 } from "../auth/Actions";
@@ -53,6 +55,14 @@ const tryAutoLoginSaga = function*() {
     }
 }
 
+const doLogoutSaga = function*() {
+    const authInfo = yield call(instaApi.readAuthInfo);
+    if (authInfo) {
+        instaApi.clearAuthInfo();
+        yield put(logoutSuccess());  
+    }
+}
+
 const fetchRecentMediaSaga = function*() {
     const mediaDataResponse = yield call(instaApi.fetchRecentMedia);
     yield put(fetchMediaSuccess(mediaDataResponse.data));
@@ -83,6 +93,7 @@ const apiSagas = function*() {
     yield takeLatest(SAVE_PROFILE_REQUEST, saveProfileSaga);
     yield takeLatest(AUTO_LOGIN_REQUEST, tryAutoLoginSaga);
     yield takeLatest(FETCH_PROFILE_REQUEST, fetchProfileSaga);
+    yield takeLatest(LOGOUT_REQUEST, doLogoutSaga);
 }
 
 // saga'lar birleştirilebiliyorlar ve burada upload ve
